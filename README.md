@@ -1,4 +1,5 @@
 # 🏆 Win The Day: The Series
+*Yes, this is created with AI, how could you tell?*
 
 A gamified habit-tracking PWA (Progressive Web App) that transforms weekly goals into a professional sports playoff experience. 
 
