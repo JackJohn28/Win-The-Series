@@ -1,233 +1,333 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0a0f" />
-  <meta name="description" content="Win The Day — Gamified habit tracking as a 7-game playoff series." />
-  <title>Win The Day: The Series</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta
+      name="description"
+      content="Win The Day — Gamified habit tracking as a 7-game playoff series."
+    />
+    <title>Win The Day: The Series</title>
 
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Firebase SDK -->
-  <script type="module" src="js/firebase-init.js"></script>
+    <!-- Firebase SDK -->
+    <script type="module" src="js/app.js"></script>
 
-  <!-- App CSS -->
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/home.css" />
-  <link rel="stylesheet" href="css/checkin.css" />
-  <link rel="stylesheet" href="css/scouting.css" />
-</head>
-<body class="venue-home" data-page="loading">
-
-  <!-- ── AUTH SCREEN ── -->
-  <div id="screen-auth" class="screen active">
-    <div class="auth-bg"></div>
-    <div class="auth-card">
-      <div class="logo-mark">W</div>
-      <h1 class="logo-title">WIN THE DAY</h1>
-      <p class="logo-sub">THE SERIES</p>
-      <p class="auth-tagline">Every day is Game Day.</p>
-      <button id="btn-google-signin" class="btn btn-primary btn-google">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        Sign in with Google
-      </button>
-      <p class="auth-error" id="auth-error"></p>
-    </div>
-  </div>
-
-  <!-- ── MAIN APP SHELL ── -->
-  <div id="app" class="hidden">
-
-    <!-- Header -->
-    <header class="app-header">
-      <div class="header-left">
-        <span class="venue-badge" id="venue-badge">🏠 HOME</span>
-      </div>
-      <div class="header-center">
-        <span class="header-title">WIN THE DAY</span>
-      </div>
-      <div class="header-right">
-        <button id="btn-signout" class="btn-icon" title="Sign Out">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    <!-- App CSS -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/checkin.css" />
+    <link rel="stylesheet" href="css/scouting.css" />
+  </head>
+  <body class="venue-home" data-page="loading">
+    <!-- ── AUTH SCREEN ── -->
+    <div id="screen-auth" class="screen active">
+      <div class="auth-bg"></div>
+      <div class="auth-card">
+        <div class="logo-mark">W</div>
+        <h1 class="logo-title">WIN THE DAY</h1>
+        <p class="logo-sub">THE SERIES</p>
+        <p class="auth-tagline">Every day is Game Day.</p>
+        <button id="btn-google-signin" class="btn btn-primary btn-google">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4"
+            />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853"
+            />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+              fill="#FBBC05"
+            />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+              fill="#EA4335"
+            />
+          </svg>
+          Sign in with Google
         </button>
+        <p class="auth-error" id="auth-error"></p>
       </div>
-    </header>
+    </div>
 
-    <!-- Navigation Tabs -->
-    <nav class="bottom-nav">
-      <button class="nav-tab active" data-tab="home">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span>Series</span>
-      </button>
-      <button class="nav-tab" data-tab="checkin">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-        <span>Check In</span>
-      </button>
-      <button class="nav-tab" data-tab="scouting">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        <span>Scouting</span>
-      </button>
-    </nav>
-
-    <!-- ── HOME TAB ── -->
-    <section id="tab-home" class="tab-content active">
-      <div class="series-hero">
-        <div class="series-week-label" id="series-week-label">WEEK 1 — SERIES</div>
-        <div class="series-score-block">
-          <div class="score-side wins">
-            <span class="score-num" id="score-wins">0</span>
-            <span class="score-label">W</span>
-          </div>
-          <div class="score-divider">—</div>
-          <div class="score-side losses">
-            <span class="score-num" id="score-losses">0</span>
-            <span class="score-label">L</span>
-          </div>
+    <!-- ── MAIN APP SHELL ── -->
+    <div id="app" class="hidden">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <span class="venue-badge" id="venue-badge">🏠 HOME</span>
         </div>
-        <div class="clinch-bar-wrapper">
-          <div class="clinch-bar">
-            <div class="clinch-fill" id="clinch-fill"></div>
-            <div class="clinch-target win-target"></div>
-            <div class="clinch-target loss-target"></div>
-          </div>
-          <p class="clinch-status" id="clinch-status">Win 4 to clinch the week</p>
+        <div class="header-center">
+          <span class="header-title">WIN THE DAY</span>
         </div>
-      </div>
-
-      <!-- Game Schedule Grid -->
-      <div class="schedule-grid" id="schedule-grid">
-        <!-- populated by JS -->
-      </div>
-
-      <!-- Championship Banner (hidden by default) -->
-      <div class="championship-banner hidden" id="championship-banner">
-        <div class="champ-icon">🏆</div>
-        <div class="champ-text">
-          <div class="champ-title">WEEK CLINCHED</div>
-          <div class="champ-sub">Championship Series Unlocked</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CHECK-IN TAB ── -->
-    <section id="tab-checkin" class="tab-content hidden">
-      <div class="checkin-container">
-        <div class="checkin-game-label" id="checkin-game-label">TONIGHT — GAME 1</div>
-        <div class="checkin-venue" id="checkin-venue">🏠 HOME GAME</div>
-
-        <div class="result-buttons">
-          <button class="result-btn win-btn" id="btn-win">
-            <span class="result-icon">W</span>
-            <span class="result-label">WIN</span>
-            <span class="result-sub">Day Conquered</span>
-          </button>
-          <button class="result-btn loss-btn" id="btn-loss">
-            <span class="result-icon">L</span>
-            <span class="result-label">LOSS</span>
-            <span class="result-sub">Move On</span>
+        <div class="header-right">
+          <button id="btn-signout" class="btn-icon" title="Sign Out">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
           </button>
         </div>
+      </header>
 
-        <!-- Win Contributors -->
-        <div class="factor-section" id="win-factors" style="display:none;">
-          <label class="factor-label">🔑 Key Contributors (select all that apply)</label>
-          <div class="factor-grid" id="win-factor-grid">
-            <!-- populated by JS -->
+      <!-- Navigation Tabs -->
+      <nav class="bottom-nav">
+        <button class="nav-tab active" data-tab="home">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <span>Series</span>
+        </button>
+        <button class="nav-tab" data-tab="checkin">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="16" />
+            <line x1="8" y1="12" x2="16" y2="12" />
+          </svg>
+          <span>Check In</span>
+        </button>
+        <button class="nav-tab" data-tab="scouting">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          <span>Scouting</span>
+        </button>
+      </nav>
+
+      <!-- ── HOME TAB ── -->
+      <section id="tab-home" class="tab-content active">
+        <div class="series-hero">
+          <div class="series-week-label" id="series-week-label">
+            WEEK 1 — SERIES
+          </div>
+          <div class="series-score-block">
+            <div class="score-side wins">
+              <span class="score-num" id="score-wins">0</span>
+              <span class="score-label">W</span>
+            </div>
+            <div class="score-divider">—</div>
+            <div class="score-side losses">
+              <span class="score-num" id="score-losses">0</span>
+              <span class="score-label">L</span>
+            </div>
+          </div>
+          <div class="clinch-bar-wrapper">
+            <div class="clinch-bar">
+              <div class="clinch-fill" id="clinch-fill"></div>
+              <div class="clinch-target win-target"></div>
+              <div class="clinch-target loss-target"></div>
+            </div>
+            <p class="clinch-status" id="clinch-status">
+              Win 4 to clinch the week
+            </p>
           </div>
         </div>
 
-        <!-- Loss Turnovers -->
-        <div class="factor-section" id="loss-factors" style="display:none;">
-          <label class="factor-label">⚠️ Turnovers (select all that apply)</label>
-          <div class="factor-grid" id="loss-factor-grid">
-            <!-- populated by JS -->
-          </div>
+        <!-- Game Schedule Grid -->
+        <div class="schedule-grid" id="schedule-grid">
+          <!-- populated by JS -->
         </div>
 
-        <div class="checkin-note-wrap" id="checkin-note-wrap" style="display:none;">
-          <textarea id="checkin-note" class="checkin-note" placeholder="Optional: Coach's notes on the game..." maxlength="280"></textarea>
-          <button id="btn-submit-checkin" class="btn btn-primary btn-submit">LOG RESULT</button>
-        </div>
-
-        <!-- Already checked in state -->
-        <div class="already-checked" id="already-checked" style="display:none;">
-          <div class="checked-icon">✓</div>
-          <p>Today's game is logged.</p>
-          <p class="checked-sub" id="checked-result-text"></p>
-        </div>
-
-        <!-- Grace period -->
-        <div class="grace-notice" id="grace-notice" style="display:none;">
-          <p>⏱ <strong>Overtime:</strong> Yesterday's result hasn't been logged. You have until midnight.</p>
-          <button class="btn btn-secondary" id="btn-grace-log">Log Yesterday</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── SCOUTING REPORT TAB ── -->
-    <section id="tab-scouting" class="tab-content hidden">
-      <div class="scouting-container">
-        <h2 class="scouting-heading">SCOUTING REPORT</h2>
-
-        <div class="stat-grid">
-          <div class="stat-card">
-            <span class="stat-val" id="stat-total-series">0</span>
-            <span class="stat-name">Series Played</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-val" id="stat-win-pct">—</span>
-            <span class="stat-name">Win %</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-val" id="stat-clinches">0</span>
-            <span class="stat-name">Weeks Clinched</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-val" id="stat-sweeps">0</span>
-            <span class="stat-name">4-0 Sweeps</span>
+        <!-- Championship Banner (hidden by default) -->
+        <div class="championship-banner hidden" id="championship-banner">
+          <div class="champ-icon">🏆</div>
+          <div class="champ-text">
+            <div class="champ-title">WEEK CLINCHED</div>
+            <div class="champ-sub">Championship Series Unlocked</div>
           </div>
         </div>
+      </section>
 
-        <div class="mvp-section">
-          <h3 class="mvp-title">MVP HABITS</h3>
-          <div id="mvp-list" class="mvp-list">
-            <p class="empty-state">No data yet. Start logging games!</p>
+      <!-- ── CHECK-IN TAB ── -->
+      <section id="tab-checkin" class="tab-content hidden">
+        <div class="checkin-container">
+          <div class="checkin-game-label" id="checkin-game-label">
+            TONIGHT — GAME 1
+          </div>
+          <div class="checkin-venue" id="checkin-venue">🏠 HOME GAME</div>
+
+          <div class="result-buttons">
+            <button class="result-btn win-btn" id="btn-win">
+              <span class="result-icon">W</span>
+              <span class="result-label">WIN</span>
+              <span class="result-sub">Day Conquered</span>
+            </button>
+            <button class="result-btn loss-btn" id="btn-loss">
+              <span class="result-icon">L</span>
+              <span class="result-label">LOSS</span>
+              <span class="result-sub">Move On</span>
+            </button>
+          </div>
+
+          <!-- Win Contributors -->
+          <div class="factor-section" id="win-factors" style="display: none">
+            <label class="factor-label"
+              >🔑 Key Contributors (select all that apply)</label
+            >
+            <div class="factor-grid" id="win-factor-grid">
+              <!-- populated by JS -->
+            </div>
+          </div>
+
+          <!-- Loss Turnovers -->
+          <div class="factor-section" id="loss-factors" style="display: none">
+            <label class="factor-label"
+              >⚠️ Turnovers (select all that apply)</label
+            >
+            <div class="factor-grid" id="loss-factor-grid">
+              <!-- populated by JS -->
+            </div>
+          </div>
+
+          <div
+            class="checkin-note-wrap"
+            id="checkin-note-wrap"
+            style="display: none"
+          >
+            <textarea
+              id="checkin-note"
+              class="checkin-note"
+              placeholder="Optional: Coach's notes on the game..."
+              maxlength="280"
+            ></textarea>
+            <button id="btn-submit-checkin" class="btn btn-primary btn-submit">
+              LOG RESULT
+            </button>
+          </div>
+
+          <!-- Already checked in state -->
+          <div
+            class="already-checked"
+            id="already-checked"
+            style="display: none"
+          >
+            <div class="checked-icon">✓</div>
+            <p>Today's game is logged.</p>
+            <p class="checked-sub" id="checked-result-text"></p>
+          </div>
+
+          <!-- Grace period -->
+          <div class="grace-notice" id="grace-notice" style="display: none">
+            <p>
+              ⏱ <strong>Overtime:</strong> Yesterday's result hasn't been
+              logged. You have until midnight.
+            </p>
+            <button class="btn btn-secondary" id="btn-grace-log">
+              Log Yesterday
+            </button>
           </div>
         </div>
+      </section>
 
-        <div class="mvp-section">
-          <h3 class="mvp-title">TOP TURNOVERS</h3>
-          <div id="turnover-list" class="mvp-list">
-            <p class="empty-state">No data yet.</p>
+      <!-- ── SCOUTING REPORT TAB ── -->
+      <section id="tab-scouting" class="tab-content hidden">
+        <div class="scouting-container">
+          <h2 class="scouting-heading">SCOUTING REPORT</h2>
+
+          <div class="stat-grid">
+            <div class="stat-card">
+              <span class="stat-val" id="stat-total-series">0</span>
+              <span class="stat-name">Series Played</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-val" id="stat-win-pct">—</span>
+              <span class="stat-name">Win %</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-val" id="stat-clinches">0</span>
+              <span class="stat-name">Weeks Clinched</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-val" id="stat-sweeps">0</span>
+              <span class="stat-name">4-0 Sweeps</span>
+            </div>
+          </div>
+
+          <div class="mvp-section">
+            <h3 class="mvp-title">MVP HABITS</h3>
+            <div id="mvp-list" class="mvp-list">
+              <p class="empty-state">No data yet. Start logging games!</p>
+            </div>
+          </div>
+
+          <div class="mvp-section">
+            <h3 class="mvp-title">TOP TURNOVERS</h3>
+            <div id="turnover-list" class="mvp-list">
+              <p class="empty-state">No data yet.</p>
+            </div>
+          </div>
+
+          <div class="history-section">
+            <h3 class="mvp-title">SERIES HISTORY</h3>
+            <div id="history-list" class="history-list">
+              <p class="empty-state">No completed series yet.</p>
+            </div>
           </div>
         </div>
+      </section>
+    </div>
+    <!-- /#app -->
 
-        <div class="history-section">
-          <h3 class="mvp-title">SERIES HISTORY</h3>
-          <div id="history-list" class="history-list">
-            <p class="empty-state">No completed series yet.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </div><!-- /#app -->
-
-  <script type="module" src="js/app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      });
-    }
-  </script>
-</body>
+    <script type="module" src="js/app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
 </html>
