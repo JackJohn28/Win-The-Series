@@ -1,19 +1,4 @@
 {
-  "indexes": [
-    {
-      "collectionGroup": "series",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "weekStart", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "games",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "date", "order": "DESCENDING" }
-      ]
-    }
-  ],
+  "indexes": [],
   "fieldOverrides": []
 }
