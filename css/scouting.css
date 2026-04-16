@@ -1,0 +1,178 @@
+/* ── SCOUTING REPORT ─────────────────────────────── */
+.scouting-container {
+  padding: 1.75rem 1.25rem 2rem;
+}
+
+.scouting-heading {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+}
+
+/* ── STAT GRID ───────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.stat-name {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── MVP & TURNOVERS ─────────────────────────────── */
+.mvp-section {
+  margin-bottom: 2rem;
+}
+
+.mvp-title {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.mvp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mvp-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeUp 0.3s ease;
+}
+
+.mvp-item-name {
+  font-family: var(--font-condensed);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+.mvp-item-count {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--win);
+}
+
+.mvp-item.turnover .mvp-item-count { color: var(--loss); }
+
+.mvp-bar {
+  height: 3px;
+  background: var(--win);
+  border-radius: 99px;
+  margin-top: 4px;
+  transition: width 0.5s ease;
+}
+
+.mvp-item.turnover .mvp-bar { background: var(--loss); }
+
+.empty-state {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem 0;
+  letter-spacing: 0.05em;
+}
+
+/* ── SERIES HISTORY ──────────────────────────────── */
+.history-section { margin-bottom: 2rem; }
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeUp 0.3s ease;
+}
+
+.history-week {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.history-record {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.history-record.clinched { color: var(--win); }
+.history-record.lost { color: var(--loss); }
+
+.history-badge {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+
+.badge-sweep {
+  background: rgba(240,192,64,0.15);
+  color: var(--neutral);
+  border: 1px solid rgba(240,192,64,0.3);
+}
+
+.badge-clinch {
+  background: var(--win-dim);
+  color: var(--win);
+  border: 1px solid rgba(0,224,122,0.2);
+}
+
+.badge-loss {
+  background: var(--loss-dim);
+  color: var(--loss);
+  border: 1px solid rgba(255,74,74,0.2);
+}

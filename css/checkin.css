@@ -1,0 +1,215 @@
+/* ── CHECK-IN ─────────────────────────────────────── */
+.checkin-container {
+  padding: 2rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 100%;
+}
+
+.checkin-game-label {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.checkin-venue {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+/* ── RESULT BUTTONS ───────────────────────────────── */
+.result-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.result-btn {
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  transition: border-color 0.2s, background 0.2s, transform 0.1s;
+}
+
+.result-btn:active { transform: scale(0.96); }
+
+.result-btn.selected.win-btn {
+  border-color: var(--win);
+  background: var(--win-dim);
+}
+.result-btn.selected.loss-btn {
+  border-color: var(--loss);
+  background: var(--loss-dim);
+}
+
+.win-btn:hover   { border-color: var(--win);  background: var(--win-dim); }
+.loss-btn:hover  { border-color: var(--loss); background: var(--loss-dim); }
+
+.result-icon {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.win-btn  .result-icon { color: var(--win); }
+.loss-btn .result-icon { color: var(--loss); }
+
+.result-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+}
+
+.result-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-condensed);
+  letter-spacing: 0.05em;
+}
+
+/* ── FACTOR SELECTION ─────────────────────────────── */
+.factor-section {
+  width: 100%;
+  max-width: 440px;
+  animation: fadeUp 0.3s ease;
+}
+
+.factor-label {
+  display: block;
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.factor-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.factor-chip {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.factor-chip:hover { border-color: var(--border-bright); color: var(--text-primary); }
+
+.factor-chip.selected-win {
+  background: var(--win-dim);
+  border-color: var(--win);
+  color: var(--win);
+}
+
+.factor-chip.selected-loss {
+  background: var(--loss-dim);
+  border-color: var(--loss);
+  color: var(--loss);
+}
+
+/* ── NOTE & SUBMIT ────────────────────────────────── */
+.checkin-note-wrap {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeUp 0.3s ease;
+}
+
+.checkin-note {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  resize: none;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.checkin-note:focus { border-color: var(--accent); }
+.checkin-note::placeholder { color: var(--text-muted); }
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+/* ── ALREADY CHECKED ──────────────────────────────── */
+.already-checked {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeUp 0.3s ease;
+}
+
+.checked-icon {
+  width: 56px; height: 56px;
+  background: var(--win-dim);
+  border: 2px solid var(--win);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  color: var(--win);
+}
+
+.already-checked p {
+  font-family: var(--font-condensed);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.checked-sub { color: var(--text-muted) !important; font-size: 0.85rem !important; margin-top: 4px; }
+
+/* ── GRACE PERIOD ─────────────────────────────────── */
+.grace-notice {
+  width: 100%;
+  max-width: 380px;
+  background: var(--neutral-dim);
+  border: 1px solid rgba(240,192,64,0.3);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+}
+
+.grace-notice p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}

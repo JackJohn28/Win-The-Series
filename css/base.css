@@ -1,0 +1,261 @@
+/* ── BASE & VARIABLES ─────────────────────────────── */
+:root {
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+
+  /* Core palette */
+  --bg-base:       #0a0a0f;
+  --bg-surface:    #12121a;
+  --bg-card:       #1a1a26;
+  --bg-raised:     #22223a;
+
+  --text-primary:  #f0f0ff;
+  --text-secondary:#9090b0;
+  --text-muted:    #5a5a78;
+
+  --border:        rgba(255,255,255,0.07);
+  --border-bright: rgba(255,255,255,0.14);
+
+  /* Win/Loss/Neutral accent */
+  --win:           #00e07a;
+  --win-dim:       rgba(0,224,122,0.12);
+  --loss:          #ff4a4a;
+  --loss-dim:      rgba(255,74,74,0.12);
+  --neutral:       #f0c040;
+  --neutral-dim:   rgba(240,192,64,0.12);
+
+  /* Venue: Home = cool blue-green | Away = hot amber-red */
+  --home-accent:   #38bdf8;
+  --home-dim:      rgba(56,189,248,0.10);
+  --away-accent:   #fb923c;
+  --away-dim:      rgba(251,146,60,0.10);
+
+  --accent:        var(--home-accent);
+  --accent-dim:    var(--home-dim);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --header-h: 54px;
+  --nav-h: 62px;
+}
+
+body.venue-away {
+  --accent:     var(--away-accent);
+  --accent-dim: var(--away-dim);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── AUTH SCREEN ─────────────────────────────────── */
+#screen-auth {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+
+.auth-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(56,189,248,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(251,146,60,0.10) 0%, transparent 60%),
+              var(--bg-base);
+}
+
+.auth-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  width: min(380px, 92vw);
+  animation: fadeUp 0.5s ease;
+}
+
+.logo-mark {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg-base);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.2rem;
+}
+
+.logo-title {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-family: var(--font-condensed);
+  font-size: 0.9rem;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.auth-tagline {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.btn-google {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; justify-content: center;
+}
+
+.auth-error {
+  margin-top: 1rem;
+  color: var(--loss);
+  font-size: 0.85rem;
+  min-height: 1.2em;
+}
+
+/* ── APP SHELL ───────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#app.hidden { display: none; }
+
+.app-header {
+  height: var(--header-h);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  transition: color 0.4s;
+}
+
+.venue-badge {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  color: var(--accent);
+  transition: all 0.4s;
+}
+
+.btn-icon {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-secondary);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center;
+  transition: color 0.2s, background 0.2s;
+}
+.btn-icon:hover { color: var(--text-primary); background: var(--bg-raised); }
+
+/* ── NAVIGATION ──────────────────────────────────── */
+.bottom-nav {
+  height: var(--nav-h);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  order: 99;
+  flex-shrink: 0;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted);
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.nav-tab.active { color: var(--accent); }
+.nav-tab svg { transition: stroke 0.2s; }
+
+/* ── TAB CONTENT ─────────────────────────────────── */
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.tab-content.hidden { display: none; }
+.tab-content.active { display: block; }
+
+/* ── BUTTONS ─────────────────────────────────────── */
+.btn {
+  border: none; cursor: pointer;
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-base);
+}
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-secondary {
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  border: 1px solid var(--border-bright);
+}
+
+/* ── UTILITIES ───────────────────────────────────── */
+.hidden { display: none !important; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseWin {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,224,122,0); }
+  50%       { box-shadow: 0 0 0 8px rgba(0,224,122,0.25); }
+}
+
+/* ── SCREEN TRANSITION ───────────────────────────── */
+.screen { display: none; }
+.screen.active { display: flex; }
+
+/* Venue transition */
+body { transition: background-color 0.5s; }

@@ -1,0 +1,207 @@
+/* ── SERIES HERO ─────────────────────────────────── */
+.series-hero {
+  padding: 2rem 1.25rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.series-week-label {
+  font-family: var(--font-condensed);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  margin-bottom: 1.2rem;
+}
+
+.series-score-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.score-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.score-num {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.score-side.wins .score-num  { color: var(--win); }
+.score-side.losses .score-num { color: var(--loss); }
+
+.score-label {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+}
+
+.score-divider {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--text-muted);
+  padding-bottom: 1.5rem;
+}
+
+/* ── CLINCH BAR ──────────────────────────────────── */
+.clinch-bar-wrapper {
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.clinch-bar {
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 99px;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 10px;
+}
+
+.clinch-fill {
+  height: 100%;
+  background: var(--win);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.5s ease, background 0.4s;
+}
+
+.clinch-fill.losing { background: var(--loss); }
+
+.clinch-target {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 20px;
+  border-radius: 1px;
+}
+
+.win-target  { left: calc(4/7 * 100%); background: var(--win); opacity: 0.5; }
+.loss-target { right: calc(3/7 * 100% - 2px); background: var(--loss); opacity: 0.5; }
+
+.clinch-status {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ── SCHEDULE GRID ───────────────────────────────── */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 0 1rem 1.5rem;
+}
+
+@media (max-width: 420px) {
+  .schedule-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    padding: 0 0.75rem 1.5rem;
+  }
+}
+
+.game-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  text-align: center;
+  transition: border-color 0.3s, background 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-card.today {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.game-card.won {
+  border-color: var(--win);
+  background: var(--win-dim);
+}
+
+.game-card.lost {
+  border-color: var(--loss);
+  background: var(--loss-dim);
+}
+
+.game-card.forfeit {
+  opacity: 0.5;
+  border-color: var(--loss);
+}
+
+.game-day {
+  font-family: var(--font-condensed);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.game-num {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.game-venue-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.game-result {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.game-card.won  .game-result { color: var(--win); }
+.game-card.lost .game-result { color: var(--loss); }
+.game-card.today .game-result { color: var(--accent); }
+
+/* ── CHAMPIONSHIP BANNER ─────────────────────────── */
+.championship-banner {
+  margin: 0 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(240,192,64,0.15), rgba(240,192,64,0.05));
+  border: 1px solid rgba(240,192,64,0.4);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeUp 0.5s ease;
+}
+
+.champ-icon { font-size: 2.5rem; }
+
+.champ-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--neutral);
+  letter-spacing: 0.06em;
+}
+
+.champ-sub {
+  font-family: var(--font-condensed);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
