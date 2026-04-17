@@ -91,8 +91,11 @@ function showAuth() {
 
 function showApp() {
   document.getElementById("screen-auth").style.display = "none";
-  document.getElementById("app").style.display = "flex";
-  document.getElementById("app").style.flexDirection = "column";
+  const appDiv = document.getElementById("app");
+  appDiv.style.display = "flex";
+  appDiv.style.flexDirection = "column";
+  appDiv.style.height = "100dvh";
+  appDiv.style.overflow = "hidden";
 }
 
 // ── Load all data ─────────────────────────────────────────────────────────
