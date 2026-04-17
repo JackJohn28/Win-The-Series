@@ -76,6 +76,7 @@ onAuthStateChanged(auth, async (user) => {
     showApp();
     try {
       await loadAll();
+      console.log("loadAll completed successfully");
     } catch (e) {
       console.log("loadAll error:", e);
     }
@@ -108,9 +109,11 @@ async function loadAll() {
     getDayGame(currentUser.uid, new Date()),
   ]);
 
+  console.log("Data loaded:", weekGames, todayGame);
   renderVenue();
   renderHomeTab();
   renderCheckinTab();
+  console.log("Rendering complete");
 }
 
 // ── Venue logic ───────────────────────────────────────────────────────────
