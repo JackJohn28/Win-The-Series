@@ -48,24 +48,11 @@ document
   .addEventListener("click", async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (e) {
+      console.log("Sign in error:", e);
       document.getElementById("auth-error").textContent = e.message;
     }
-  });
-
-getRedirectResult(auth)
-  .then((result) => {
-    console.log("Redirect result:", result);
-    if (result?.user) {
-      currentUser = result.user;
-      showApp();
-      loadAll();
-    }
-  })
-  .catch((e) => {
-    console.log("Redirect error:", e);
-    document.getElementById("auth-error").textContent = e.message;
   });
 
 document
