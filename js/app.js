@@ -197,6 +197,27 @@ function renderScheduleGrid(series) {
                 : "–"
       }</span>
     `;
+
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      const resultChoice = prompt(
+        `Game ${slot.game} (${slot.label}) — Enter result: win or loss`,
+      );
+      if (resultChoice === "win" || resultChoice === "loss") {
+        logGame(currentUser.uid, gameDate, {
+          result: resultChoice,
+          factors: [],
+          note: "Manual entry",
+          gameNum: slot.game,
+          venue: slot.venue,
+        }).then(async () => {
+          weekGames = await getWeekGames(currentUser.uid, weekStart);
+          const series = computeSeries(weekGames);
+          await saveSeries(currentUser.uid, weekStart, series);
+          await loadAll();
+        });
+      }
+    });
     grid.appendChild(card);
   });
 }
