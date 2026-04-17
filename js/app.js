@@ -74,7 +74,11 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
     showApp();
-    await loadAll();
+    try {
+      await loadAll();
+    } catch (e) {
+      console.log("loadAll error:", e);
+    }
   } else {
     showAuth();
   }
