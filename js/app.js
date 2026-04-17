@@ -86,8 +86,14 @@ function showAuth() {
 }
 
 function showApp() {
-  document.getElementById("screen-auth").classList.remove("active");
-  document.getElementById("app").classList.remove("hidden");
+  console.log("showApp called");
+  const authScreen = document.getElementById("screen-auth");
+  const appDiv = document.getElementById("app");
+  console.log("auth screen:", authScreen);
+  console.log("app div:", appDiv);
+  authScreen.classList.remove("active");
+  appDiv.classList.remove("hidden");
+  console.log("app classes after:", appDiv.className);
 }
 
 // ── Load all data ─────────────────────────────────────────────────────────
