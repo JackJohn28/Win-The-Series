@@ -56,6 +56,7 @@ document
 
 getRedirectResult(auth)
   .then((result) => {
+    console.log("Redirect result:", result);
     if (result?.user) {
       currentUser = result.user;
       showApp();
@@ -63,8 +64,10 @@ getRedirectResult(auth)
     }
   })
   .catch((e) => {
+    console.log("Redirect error:", e);
     document.getElementById("auth-error").textContent = e.message;
   });
+
 document
   .getElementById("btn-signout")
   .addEventListener("click", () => signOut(auth));
