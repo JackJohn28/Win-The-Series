@@ -54,10 +54,17 @@ document
     }
   });
 
-getRedirectResult(auth).catch((e) => {
-  document.getElementById("auth-error").textContent = e.message;
-});
-
+getRedirectResult(auth)
+  .then((result) => {
+    if (result?.user) {
+      currentUser = result.user;
+      showApp();
+      loadAll();
+    }
+  })
+  .catch((e) => {
+    document.getElementById("auth-error").textContent = e.message;
+  });
 document
   .getElementById("btn-signout")
   .addEventListener("click", () => signOut(auth));
