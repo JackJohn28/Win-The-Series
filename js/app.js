@@ -48,7 +48,8 @@ document
   .addEventListener("click", async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      provider.setCustomParameters({ prompt: "select_account" });
+      await signInWithRedirect(auth, provider);
     } catch (e) {
       console.log("Sign in error:", e);
       document.getElementById("auth-error").textContent = e.message;
