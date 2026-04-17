@@ -3,41 +3,60 @@
 // Main application controller.
 // ──────────────────────────────────────────────────────────────────────────
 
-import { auth }                   from "./firebase-init.js";
-import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
-                                  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { auth } from "./firebase-init.js";
 import {
-  SCHEDULE, WIN_FACTORS, LOSS_FACTORS,
-  getWeekStart, toDateKey, toWeekKey,
-  getTodaySlot, computeSeries, isGracePeriodActive,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  SCHEDULE,
+  WIN_FACTORS,
+  LOSS_FACTORS,
+  getWeekStart,
+  toDateKey,
+  toWeekKey,
+  getTodaySlot,
+  computeSeries,
+  isGracePeriodActive,
 } from "./game-logic.js";
 import {
-  logGame, getWeekGames, getDayGame,
-  saveSeries, getAllSeries, getFactorStats, getLoggedDateKeys,
+  logGame,
+  getWeekGames,
+  getDayGame,
+  saveSeries,
+  getAllSeries,
+  getFactorStats,
+  getLoggedDateKeys,
 } from "./db.js";
 
 // ── State ─────────────────────────────────────────────────────────────────
-let currentUser   = null;
-let weekGames     = [];   // array of logged game objects this week
-let todayGame     = null; // today's game log (or null)
-let weekStart     = getWeekStart();
-let todaySlot     = getTodaySlot();
+let currentUser = null;
+let weekGames = []; // array of logged game objects this week
+let todayGame = null; // today's game log (or null)
+let weekStart = getWeekStart();
+let todaySlot = getTodaySlot();
 let selectedResult = null;
 let selectedFactors = new Set();
 
 // ── Auth ──────────────────────────────────────────────────────────────────
-document.getElementById("btn-google-signin").addEventListener("click", async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-  } catch (e) {
-    document.getElementById("auth-error").textContent = e.message;
-  }
-});
+document
+  .getElementById("btn-google-signin")
+  .addEventListener("click", async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithRedirect(auth, provider);
+    } catch (e) {
+      document.getElementById("auth-error").textContent = e.message;
+    }
+  });
 
-document.getElementById("btn-signout").addEventListener("click", () => signOut(auth));
+document
+  .getElementById("btn-signout")
+  .addEventListener("click", () => signOut(auth));
 
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
     showApp();
@@ -59,8 +78,8 @@ function showApp() {
 
 // ── Load all data ─────────────────────────────────────────────────────────
 async function loadAll() {
-  weekStart  = getWeekStart();
-  todaySlot  = getTodaySlot();
+  weekStart = getWeekStart();
+  todaySlot = getTodaySlot();
 
   [weekGames, todayGame] = await Promise.all([
     getWeekGames(currentUser.uid, weekStart),
@@ -92,19 +111,19 @@ function renderHomeTab() {
     `WEEK ${weekNum} — SERIES`;
 
   // Score
-  document.getElementById("score-wins").textContent   = series.wins;
+  document.getElementById("score-wins").textContent = series.wins;
   document.getElementById("score-losses").textContent = series.losses;
 
   // Clinch bar
   const fill = document.getElementById("clinch-fill");
-  const pct  = (series.wins / 7) * 100;
+  const pct = (series.wins / 7) * 100;
   fill.style.width = `${Math.min(pct, 100)}%`;
   fill.classList.toggle("losing", series.losses > series.wins);
 
   // Status text
   const status = document.getElementById("clinch-status");
-  if (series.sweep)       status.textContent = "🏆 SWEEP! Perfect Week!";
-  else if (series.clinched)  status.textContent = "✅ Week Clinched!";
+  if (series.sweep) status.textContent = "🏆 SWEEP! Perfect Week!";
+  else if (series.clinched) status.textContent = "✅ Week Clinched!";
   else if (series.eliminated) status.textContent = "Series Over — Eliminated";
   else {
     const winsNeeded = 4 - series.wins;
@@ -112,7 +131,8 @@ function renderHomeTab() {
   }
 
   // Championship banner
-  document.getElementById("championship-banner")
+  document
+    .getElementById("championship-banner")
     .classList.toggle("hidden", !series.clinched);
 
   // Schedule grid
@@ -130,13 +150,13 @@ function renderScheduleGrid(series) {
   SCHEDULE.forEach((slot, idx) => {
     const gameDate = new Date(weekStart);
     gameDate.setDate(gameDate.getDate() + idx);
-    const key    = toDateKey(gameDate);
+    const key = toDateKey(gameDate);
     const result = resultMap.get(key);
     const isToday = idx === todaySlot;
 
     const card = document.createElement("div");
     card.className = "game-card";
-    if (isToday)          card.classList.add("today");
+    if (isToday) card.classList.add("today");
     if (result === "win") card.classList.add("won");
     if (result === "loss" || result === "forfeit") card.classList.add("lost");
 
@@ -145,10 +165,15 @@ function renderScheduleGrid(series) {
       <span class="game-num">G${slot.game}</span>
       <span class="game-venue-icon">${slot.venue === "home" ? "🏠" : "✈️"}</span>
       <span class="game-result">${
-        result === "win"    ? "W" :
-        result === "loss"   ? "L" :
-        result === "forfeit"? "F" :
-        isToday             ? "•" : "–"
+        result === "win"
+          ? "W"
+          : result === "loss"
+            ? "L"
+            : result === "forfeit"
+              ? "F"
+              : isToday
+                ? "•"
+                : "–"
       }</span>
     `;
     grid.appendChild(card);
@@ -157,19 +182,27 @@ function renderScheduleGrid(series) {
 
 // ── CHECK-IN TAB ──────────────────────────────────────────────────────────
 function renderCheckinTab() {
-  const slot    = SCHEDULE[todaySlot];
+  const slot = SCHEDULE[todaySlot];
   const already = !!todayGame;
 
-  document.getElementById("checkin-game-label").textContent =
-    slot ? `TONIGHT — GAME ${slot.game}` : "NO GAME TODAY";
+  document.getElementById("checkin-game-label").textContent = slot
+    ? `TONIGHT — GAME ${slot.game}`
+    : "NO GAME TODAY";
 
-  document.getElementById("checkin-venue").textContent =
-    slot ? (slot.venue === "home" ? "🏠 HOME GAME" : "✈️ AWAY GAME") : "";
+  document.getElementById("checkin-venue").textContent = slot
+    ? slot.venue === "home"
+      ? "🏠 HOME GAME"
+      : "✈️ AWAY GAME"
+    : "";
 
-  document.getElementById("already-checked").style.display  = already ? "" : "none";
-  document.getElementById("result-buttons").style.display   = already ? "none" : "";
-  document.getElementById("win-factors").style.display      = "none";
-  document.getElementById("loss-factors").style.display     = "none";
+  document.getElementById("already-checked").style.display = already
+    ? ""
+    : "none";
+  document.getElementById("result-buttons").style.display = already
+    ? "none"
+    : "";
+  document.getElementById("win-factors").style.display = "none";
+  document.getElementById("loss-factors").style.display = "none";
   document.getElementById("checkin-note-wrap").style.display = "none";
 
   if (already && todayGame) {
@@ -178,19 +211,20 @@ function renderCheckinTab() {
   }
 
   // Populate factor chips
-  buildFactorChips("win-factor-grid",  WIN_FACTORS,  "win");
+  buildFactorChips("win-factor-grid", WIN_FACTORS, "win");
   buildFactorChips("loss-factor-grid", LOSS_FACTORS, "loss");
 
   // Grace period
-  const loggedDates = new Set(weekGames.map(g => g.dateKey));
+  const loggedDates = new Set(weekGames.map((g) => g.dateKey));
   const grace = isGracePeriodActive(loggedDates);
-  document.getElementById("grace-notice").style.display = (!already && grace) ? "" : "none";
+  document.getElementById("grace-notice").style.display =
+    !already && grace ? "" : "none";
 }
 
 function buildFactorChips(containerId, factors, type) {
   const container = document.getElementById(containerId);
   container.innerHTML = "";
-  factors.forEach(f => {
+  factors.forEach((f) => {
     const chip = document.createElement("button");
     chip.className = "factor-chip";
     chip.textContent = f;
@@ -218,45 +252,54 @@ function selectResult(result) {
   selectedResult = result;
   selectedFactors.clear();
 
-  document.getElementById("btn-win").classList.toggle("selected",  result === "win");
-  document.getElementById("btn-loss").classList.toggle("selected", result === "loss");
+  document
+    .getElementById("btn-win")
+    .classList.toggle("selected", result === "win");
+  document
+    .getElementById("btn-loss")
+    .classList.toggle("selected", result === "loss");
 
-  document.getElementById("win-factors").style.display  = result === "win"  ? "" : "none";
-  document.getElementById("loss-factors").style.display = result === "loss" ? "" : "none";
+  document.getElementById("win-factors").style.display =
+    result === "win" ? "" : "none";
+  document.getElementById("loss-factors").style.display =
+    result === "loss" ? "" : "none";
   document.getElementById("checkin-note-wrap").style.display = "";
 
   // Reset chip selections
-  document.querySelectorAll(".factor-chip").forEach(c =>
-    c.classList.remove("selected-win", "selected-loss"));
+  document
+    .querySelectorAll(".factor-chip")
+    .forEach((c) => c.classList.remove("selected-win", "selected-loss"));
 }
 
 // Submit
-document.getElementById("btn-submit-checkin").addEventListener("click", async () => {
-  if (!selectedResult) return;
-  const slot  = SCHEDULE[todaySlot];
-  const today = new Date();
+document
+  .getElementById("btn-submit-checkin")
+  .addEventListener("click", async () => {
+    if (!selectedResult) return;
+    const slot = SCHEDULE[todaySlot];
+    const today = new Date();
 
-  try {
-    await logGame(currentUser.uid, today, {
-      result:  selectedResult,
-      factors: [...selectedFactors],
-      note:    document.getElementById("checkin-note").value.trim(),
-      gameNum: slot ? slot.game : 0,
-      venue:   slot ? slot.venue : "home",
-    });
+    try {
+      await logGame(currentUser.uid, today, {
+        result: selectedResult,
+        factors: [...selectedFactors],
+        note: document.getElementById("checkin-note").value.trim(),
+        gameNum: slot ? slot.game : 0,
+        venue: slot ? slot.venue : "home",
+      });
 
-    // Recompute series and save summary
-    weekGames = await getWeekGames(currentUser.uid, weekStart);
-    const series = computeSeries(weekGames);
-    await saveSeries(currentUser.uid, weekStart, series);
+      // Recompute series and save summary
+      weekGames = await getWeekGames(currentUser.uid, weekStart);
+      const series = computeSeries(weekGames);
+      await saveSeries(currentUser.uid, weekStart, series);
 
-    await loadAll();
-    switchTab("home");
-  } catch (e) {
-    console.error("Check-in error:", e);
-    alert("Failed to save. Please try again.");
-  }
-});
+      await loadAll();
+      switchTab("home");
+    } catch (e) {
+      console.error("Check-in error:", e);
+      alert("Failed to save. Please try again.");
+    }
+  });
 
 // Grace period log
 document.getElementById("btn-grace-log").addEventListener("click", () => {
@@ -273,19 +316,23 @@ async function renderScoutingTab() {
   ]);
 
   // Aggregate stats
-  const totalGames = allSeries.reduce((a, s) => a + (s.wins || 0) + (s.losses || 0), 0);
-  const totalWins  = allSeries.reduce((a, s) => a + (s.wins || 0), 0);
-  const clinches   = allSeries.filter(s => s.clinched).length;
-  const sweeps     = allSeries.filter(s => s.sweep).length;
+  const totalGames = allSeries.reduce(
+    (a, s) => a + (s.wins || 0) + (s.losses || 0),
+    0,
+  );
+  const totalWins = allSeries.reduce((a, s) => a + (s.wins || 0), 0);
+  const clinches = allSeries.filter((s) => s.clinched).length;
+  const sweeps = allSeries.filter((s) => s.sweep).length;
 
   document.getElementById("stat-total-series").textContent = allSeries.length;
-  document.getElementById("stat-win-pct").textContent =
-    totalGames ? `${Math.round((totalWins / totalGames) * 100)}%` : "—";
+  document.getElementById("stat-win-pct").textContent = totalGames
+    ? `${Math.round((totalWins / totalGames) * 100)}%`
+    : "—";
   document.getElementById("stat-clinches").textContent = clinches;
-  document.getElementById("stat-sweeps").textContent   = sweeps;
+  document.getElementById("stat-sweeps").textContent = sweeps;
 
   // MVP habits
-  renderFactorList("mvp-list",      winFactors,  "win");
+  renderFactorList("mvp-list", winFactors, "win");
   renderFactorList("turnover-list", lossFactors, "loss");
 
   // History
@@ -299,17 +346,23 @@ function renderFactorList(containerId, factorMap, type) {
     return;
   }
 
-  const sorted = [...factorMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const max    = sorted[0][1];
-  container.innerHTML = sorted.map(([name, count]) => `
+  const sorted = [...factorMap.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+  const max = sorted[0][1];
+  container.innerHTML = sorted
+    .map(
+      ([name, count]) => `
     <div class="mvp-item ${type === "loss" ? "turnover" : ""}">
       <div style="flex:1">
         <div class="mvp-item-name">${name}</div>
-        <div class="mvp-bar" style="width:${(count/max)*100}%"></div>
+        <div class="mvp-bar" style="width:${(count / max) * 100}%"></div>
       </div>
       <span class="mvp-item-count">${count}x</span>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 }
 
 function renderHistory(series) {
@@ -319,41 +372,49 @@ function renderHistory(series) {
     return;
   }
 
-  container.innerHTML = series.slice(0, 16).map(s => {
-    const badge = s.sweep     ? `<span class="history-badge badge-sweep">SWEEP</span>` :
-                  s.clinched  ? `<span class="history-badge badge-clinch">CLINCHED</span>` :
-                                `<span class="history-badge badge-loss">ELIMINATED</span>`;
-    return `
+  container.innerHTML = series
+    .slice(0, 16)
+    .map((s) => {
+      const badge = s.sweep
+        ? `<span class="history-badge badge-sweep">SWEEP</span>`
+        : s.clinched
+          ? `<span class="history-badge badge-clinch">CLINCHED</span>`
+          : `<span class="history-badge badge-loss">ELIMINATED</span>`;
+      return `
       <div class="history-item">
         <span class="history-week">Week of ${s.weekStart}</span>
         <span class="history-record ${s.clinched ? "clinched" : "lost"}">${s.wins}–${s.losses}</span>
         ${badge}
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 }
 
 // ── TAB NAVIGATION ────────────────────────────────────────────────────────
-document.querySelectorAll(".nav-tab").forEach(btn => {
+document.querySelectorAll(".nav-tab").forEach((btn) => {
   btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
 
 function switchTab(tabName) {
-  document.querySelectorAll(".nav-tab").forEach(b =>
-    b.classList.toggle("active", b.dataset.tab === tabName));
-  document.querySelectorAll(".tab-content").forEach(s =>
-    s.classList.toggle("active", s.id === `tab-${tabName}`));
-  document.querySelectorAll(".tab-content").forEach(s =>
-    s.classList.toggle("hidden", s.id !== `tab-${tabName}`));
+  document
+    .querySelectorAll(".nav-tab")
+    .forEach((b) => b.classList.toggle("active", b.dataset.tab === tabName));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach((s) => s.classList.toggle("active", s.id === `tab-${tabName}`));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach((s) => s.classList.toggle("hidden", s.id !== `tab-${tabName}`));
 
   if (tabName === "scouting") renderScoutingTab();
-  if (tabName === "checkin")  renderCheckinTab();
+  if (tabName === "checkin") renderCheckinTab();
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 function getWeekNumber(date) {
   // Simple week-of-year for display
-  const start  = new Date(date.getFullYear(), 0, 1);
-  const diff   = date - start;
+  const start = new Date(date.getFullYear(), 0, 1);
+  const diff = date - start;
   return Math.ceil((diff / 86400000 + start.getDay() + 1) / 7);
 }
