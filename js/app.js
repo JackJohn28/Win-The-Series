@@ -85,19 +85,14 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 function showAuth() {
-  document.getElementById("screen-auth").classList.add("active");
-  document.getElementById("app").classList.add("hidden");
+  document.getElementById("screen-auth").style.display = "flex";
+  document.getElementById("app").style.display = "none";
 }
 
 function showApp() {
-  console.log("showApp called");
-  const authScreen = document.getElementById("screen-auth");
-  const appDiv = document.getElementById("app");
-  console.log("auth screen:", authScreen);
-  console.log("app div:", appDiv);
-  authScreen.classList.remove("active");
-  appDiv.classList.remove("hidden");
-  console.log("app classes after:", appDiv.className);
+  document.getElementById("screen-auth").style.display = "none";
+  document.getElementById("app").style.display = "flex";
+  document.getElementById("app").style.flexDirection = "column";
 }
 
 // ── Load all data ─────────────────────────────────────────────────────────
