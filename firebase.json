@@ -12,7 +12,8 @@
       ".firebaserc",
       "SETUP.md",
       "node_modules",
-      ".git"
+      ".git",
+      "sw.js"
     ],
     "rewrites": [
       {
