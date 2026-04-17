@@ -3,7 +3,7 @@
 // Main application controller.
 // ──────────────────────────────────────────────────────────────────────────
 
-import { auth } from "./firebase-init.js";
+import { auth, db } from "./firebase-init.js";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -201,7 +201,7 @@ function renderScheduleGrid(series) {
     card.style.cursor = "pointer";
     card.addEventListener("click", () => {
       const resultChoice = prompt(
-        `Game ${slot.game} (${slot.label}) — Enter result: win or loss`,
+        `Game ${slot.game} (${slot.label}) — Enter result: win, loss, or clear`,
       );
       if (resultChoice === "win" || resultChoice === "loss") {
         logGame(currentUser.uid, gameDate, {
@@ -216,6 +216,18 @@ function renderScheduleGrid(series) {
           await saveSeries(currentUser.uid, weekStart, series);
           await loadAll();
         });
+      } else if (resultChoice === "clear") {
+        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js")
+          .then(({ deleteDoc, doc }) => {
+            const key = toDateKey(gameDate);
+            return deleteDoc(doc(db, "users", currentUser.uid, "games", key));
+          })
+          .then(async () => {
+            weekGames = await getWeekGames(currentUser.uid, weekStart);
+            const series = computeSeries(weekGames);
+            await saveSeries(currentUser.uid, weekStart, series);
+            await loadAll();
+          });
       }
     });
     grid.appendChild(card);
