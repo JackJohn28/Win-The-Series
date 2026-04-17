@@ -7,6 +7,8 @@ import { auth } from "./firebase-init.js";
 import {
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -51,6 +53,10 @@ document
       document.getElementById("auth-error").textContent = e.message;
     }
   });
+
+getRedirectResult(auth).catch((e) => {
+  document.getElementById("auth-error").textContent = e.message;
+});
 
 document
   .getElementById("btn-signout")
