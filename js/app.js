@@ -33,6 +33,15 @@ import {
   getLoggedDateKeys,
 } from "./db.js";
 
+// Handle redirect result on page load
+getRedirectResult(auth)
+  .then((result) => {
+    console.log("Redirect result on load:", result);
+  })
+  .catch((e) => {
+    console.log("Redirect error:", e);
+  });
+
 // ── State ─────────────────────────────────────────────────────────────────
 let currentUser = null;
 let weekGames = []; // array of logged game objects this week
@@ -61,6 +70,7 @@ document
   .addEventListener("click", () => signOut(auth));
 
 onAuthStateChanged(auth, async (user) => {
+  console.log("Auth state changed:", user);
   currentUser = user;
   if (user) {
     showApp();
